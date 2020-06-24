@@ -15,7 +15,7 @@ class MiniApiController extends Controller {
 
     public function testAction(){
         echo "success";
-        echo"1";
+        echo"2";
     }
 
     public function _initialize() {
