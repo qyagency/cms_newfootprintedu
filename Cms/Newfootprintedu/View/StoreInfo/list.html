@@ -1,0 +1,162 @@
+Form
+<extend name="Layout:index" />
+<block name="title">门店信息 - 列表</block>
+<block name="main">
+    <style type="text/css">
+        table {
+
+            table-layout: fixed;
+        }
+
+        .add {
+            border-bottom: 10px solid #666666;
+            /*下面4行是实现超过td文字变省略号,另外还要给table加上table-layout:fixed;*/
+            text-overflow: ellipsis;
+            -moz-text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        #atable {
+            width: 1492px;
+        }
+
+        #atable thead th:first-child {
+            width: 52px !important;
+        }
+
+        .activityLink {
+            width: auto;
+            margin-right: 0 !important;
+        }
+
+        .activityLink {
+            background-color: #43CD80;
+            color: #ffffff;
+
+        }
+
+        .screen {
+            position: absolute;
+            height: 34px;
+            z-index: 1;
+        }
+
+        .screen .item {
+            float: left;
+            height: 100%;
+            margin-right: 10px;
+        }
+
+        .screen .item .lab {
+            float: left;
+            line-height: 34px;
+        }
+
+        .screen .item input,
+        .screen .item select {
+            width: 120px;
+            height: 34px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 0 10px;
+        }
+
+        #keyword {
+            width: 300px;
+        }
+
+        #infoPage span {
+            color: #0088cc;
+            cursor: pointer;
+        }
+
+        #infoPage span.no {
+            color: #cccccc;
+            cursor: no-drop;
+        }
+
+        .table-bordered>thead>tr>th,
+        .table-bordered>tbody>tr>th,
+        .table-bordered>tfoot>tr>th,
+        .table-bordered>thead>tr>td,
+        .table-bordered>tbody>tr>td,
+        .table-bordered>tfoot>tr>td {
+            border: 0px solid #ddd;
+        }
+
+        .table-bordered {
+            border: 0px solid #ddd;
+
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        .ktx-form-btn {
+            display: block;
+            text-align: center;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 5px;
+            background: #444;
+            color: #fff;
+            /* margin: 10px 0px 20px 820px; */
+            margin: 10px 0px 20px 0px;
+        }
+        a:hover{
+            color:#fff;
+            text-decoration: none;
+        }
+    </style>
+    <a href="https://www.curioo.com.cn/StoreInfo/insert.html" class="ktx-form-btn" id="select-btn">
+        新增
+    </a>
+    <section class="panel">
+        <div class="panel-body">
+            <table class="table table-bordered table-condensed mb-none">
+                <thead>
+                    <tr>
+                        <th width="50px">序号</th>
+                        <th>地区编号</th>
+                        <th>地区</th>
+                        <th>门店名称</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <volist name="list" id="vo" key="k">
+                        <tr id="StoreInfo_{$k}">
+                            <td>{$vo.id}</td>
+                            <td>{$vo.area_id}</td>
+                            <td class="add">{$vo.area_name}</td>
+                            <td class="add">{$vo.store_name}</td>
+                            <td>
+                                <in name="cEdit" value="$Think.session.routes">
+                                    <a href="{:U('/StoreInfo/edit/id/'.$vo['id'])}"
+                                        class="btn btn-xs btn-primary ml-sm mr-sm"><i class="fa fa-pencil"></i> 编辑</a>
+                                </in>
+                                <in name="cDelete" value="$Think.session.routes">
+                                    <a data-target="StoreInfo_{$k}" data-href="{:U('/StoreInfo/delete/id/'.$vo['id'])}"
+                                        data-toggle="confirmation" class="btn btn-xs btn-primary"><i
+                                            class="fa fa-trash-o"></i> 删除</a>
+                                </in>
+                            </td>
+                        </tr>
+                    </volist>
+                </tbody>
+            </table>
+            {$page}
+
+        </div>
+
+
+
+    </section>
+</block>

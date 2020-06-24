@@ -1,0 +1,52 @@
+<extend name="Layout:index" />
+<block name="title">User</block>
+<block name="cpc">
+</block>
+<block name="main">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-hover mb-none">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>帐号</th>
+                        <th>昵称</th>
+                        <th>添加时间</th>
+                        <th>更新时间</th>
+                        <th>登录时间</th>
+                        <th>登录IP</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <volist name="list" id="vo">
+                        <tr>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.passport}</td>
+                            <td>{$vo.nickname}</td>
+                            <td>{$vo.create_time|toDate='Y-m-d H#i#s'}</td>
+                            <td>{$vo.update_time|toDate='Y-m-d H#i#s'}</td>
+                            <td>{$vo.last_login_time|toDate='Y-m-d H#i#s'}</td>
+                            <td>{$vo.last_login_ip}</td>
+                            <td>{$vo.status}</td>
+                            <td class="actions-hover actions-fade">
+                                <a href=""><i class="fa fa-pencil"></i></a>
+                                <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
+                            </td>
+                        </tr>
+                    </volist>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</block>
+<block name="cpvav">
+
+</block>
+
+
+

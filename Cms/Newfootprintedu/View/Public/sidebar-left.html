@@ -1,0 +1,71 @@
+<aside id="sidebar-left" class="sidebar-left">
+
+    <div class="sidebar-header">
+        <div class="sidebar-title">
+            导航
+        </div>
+        <div class="sidebar-toggle hidden-xs" data-toggle-class="sidebar-left-collapsed" data-target="html"
+             data-fire-event="sidebar-left-toggle">
+            <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+        </div>
+    </div>
+
+    <div class="nano">
+        <div class="nano-content">
+            <nav id="menu" class="nav-main" role="navigation">
+                <ul class="nav nav-main">
+                    <foreach name="Think.session.menu" item="menu" key="K">
+                    <li class="nav-parent nav-expanded <eq name='CMENU' value='$K'> nav-expanded nav-active</eq>">
+                        <a>
+                            <i class="fa {$Think.config.MENU_FA.$K}"  aria-hidden="ture"></i>
+                            <span>{$Think.config.MENU_NAME.$K}</span>
+                        </a>
+                        <ul class="nav nav-children">
+                            <foreach name="menu" item="subMenu" key="K2">
+                                <eq name='Think.CONTROLLER_NAME' value='$K2'>
+                                    <li class="nav-parent nav-expanded">
+                                        <a>
+                                            <i class="fa fa-paper-plane"></i>
+                                            {$Think.config.CONTROLLER_NAME.$K2}
+                                        </a>
+                                        <ul class="nav nav-children">
+                                            <foreach name="subMenu" item="item">
+                                                <li class="<eq name='Think.ACTION_NAME' value='$item'>nav-active</eq>">
+                                                    <a href="{:U('/'.$K2.'/'.$item)}">
+                                                        <i class="fa fa-angle-right"></i>
+                                                        {$Think.config.ACTION_NAME.$item}
+                                                    </a>
+                                                </li>
+                                            </foreach>
+                                        </ul>
+                                    </li>
+                                    <else/>
+                                    <li class="nav-parent">
+                                        <a>
+                                            <i class="fa fa-quote-left"></i>
+                                            {$Think.config.CONTROLLER_NAME.$K2}
+                                        </a>
+                                        <ul class="nav nav-children">
+                                            <foreach name="subMenu" item="item">
+                                                <li>
+                                                    <a href="{:U('/'.$K2.'/'.$item)}">
+                                                        <i class="fa fa-angle-right"></i>
+                                                        {$Think.config.ACTION_NAME.$item}
+                                                    </a>
+                                                </li>
+                                            </foreach>
+                                        </ul>
+                                    </li>
+                                    </eq>
+
+                            </foreach>
+                        </ul>
+                    </li>
+                    </foreach>
+                </ul>
+            </nav>
+        </div>
+
+    </div>
+
+</aside>

@@ -1,0 +1,67 @@
+<extend name="Layout:index"/>
+<block name="title">User</block>
+<block name="cpc">
+</block>
+<block name="main">
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel panel-featured panel-featured-primary">
+                <header class="panel-heading">
+                    <div class="panel-actions">
+                        <a href="#" class="panel-action fa fa-refresh" ic-trigger-on="click"
+                           ic-prepend-from="/example-load-more" ic-target="#ExampleLoadMorePrependTarget"></a>
+                        <a href="#" class="panel-action panel-action-toggle" data-panel-toggle></a>
+                    </div>
+                    <h2 class="panel-title">Title</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="tab-pane">
+                        <div class="table-responsive">
+                            <table class="table table-no-more table-bordered table-striped mb-none">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>帐号</th>
+                                    <th>昵称</th>
+                                    <th>添加时间</th>
+                                    <th>更新时间</th>
+                                    <th>登录时间</th>
+                                    <th>登录IP</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <volist name="list" id="vo">
+                                    <tr>
+                                        <td data-title="#">{$vo.id}</td>
+                                        <td data-title="帐号">{$vo.passport}</td>
+                                        <td data-title="昵称">{$vo.nickname}</td>
+                                        <td data-title="添加时间">{$vo.create_time|toDate='Y-m-d H#i#s'}</td>
+                                        <td data-title="更新时间">{$vo.update_time|toDate='Y-m-d H#i#s'}</td>
+                                        <td data-title="登录时间">{$vo.last_login_time|toDate='Y-m-d H#i#s'}</td>
+                                        <td data-title="登录IP">{$vo.last_login_ip}</td>
+                                        <td data-title="状态">{$vo.status}</td>
+                                        <td data-title="操作" class="actions">
+                                            <a class="simple-ajax-modal" href="assets/ajax/ui-elements-modals-ajax.html"><i class="fa fa-pencil"></i></a>
+                                            <a href="" class="delete-row"><i class="fa fa-trash-o"></i></a>
+                                        </td>
+                                    </tr>
+                                </volist>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+</block>
+<block name="cpvav">
+    <import file="admin/js/ui-elements/examples#modals" />
+</block>
+
+
+

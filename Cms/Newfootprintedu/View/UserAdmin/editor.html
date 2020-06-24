@@ -1,0 +1,41 @@
+<extend name="Layout:index" />
+<block name="title">账户管理 - 编辑</block>
+<style type="text/css">
+
+
+    .area_img{
+        display: inline-block;
+        box-sizing: border-box;
+        vertical-align: middle;
+    }
+
+</style>
+
+<block name="cpc">
+    <import type="css" file="vendor/bootstrap-multiselect/bootstrap-multiselect"/>
+    <import type="css" file="vendor.select2.css.select2"/>
+    <import type="css" file="vendor.select2-bootstrap-theme.select2-bootstrap"/>
+    <import type="css" file="vendor/uploadimg/css/upload3"/>
+</block>
+<block name="main">
+    <form class="ajaxForm form-horizontal form-bordered" enctype="multipart/form-data" method="post" novalidate="novalidate">
+    <section class="panel">
+        <div class="panel-body">
+            <cps:oneInput label="员工账号:" target="username" required="1" />
+            <cps:oneInput label="密码:" target="password" required="1" />
+            <cps:oneInput label="员工姓名:" target="nickname" required="1" />
+            <cps:oneSelect label="所属门店:" target="store_id" source="vo.StoreList" required="1" />
+            <cps:oneSelect label="权限:" target="group_id" source="vo.GroupList" required="1" />
+
+        </div>
+        <footer class="panel-footer">
+            <div class="row">
+                <div class="col-sm-9 col-lg-3">
+                    <button class="btn btn-primary">保存</button>
+                    <button class="btn btn-primary btn-back">取消</button>
+                </div>
+            </div>
+        </footer>
+    </section>
+</form>
+</block>

@@ -1,0 +1,94 @@
+<extend name="Layout:index" />
+<block name="title">员工中心 - 个人中心</block>
+<style type="text/css">
+
+
+    .area_img{
+        display: inline-block;
+        box-sizing: border-box;
+        vertical-align: middle;
+    }
+
+</style>
+
+<block name="cpc">
+    <import type="css" file="vendor/bootstrap-multiselect/bootstrap-multiselect"/>
+    <import type="css" file="vendor.select2.css.select2"/>
+    <import type="css" file="vendor.select2-bootstrap-theme.select2-bootstrap"/>
+    <import type="css" file="vendor/uploadimg/css/upload3"/>
+</block>
+<block name="main">
+    <form class="ajaxForm form-horizontal form-bordered" enctype="multipart/form-data" method="post" novalidate="novalidate">
+    <section class="panel">
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="col-md-2 control-label">序号：</label>
+                  <label class="col-md-2 control-label">{$list.id}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">员工账号：</label>
+                <label class="col-md-2 control-label">{$list.username}</label>
+                <a href="{:U('user/info')}" style="margin-left: 100px;"
+                   class="btn btn-xs btn-primary  mr-sm "><i class="fa fa-pencil"></i> 更改密码</a>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">员工姓名：</label>
+               <label class="col-md-2 control-label">{$list.nickname}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">所在地区：</label>
+                <label class="col-md-2 control-label">{$list.area_name}</label>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">所属门店：</label>
+                <label class="col-md-2 control-label">{$list.store_name}</label>
+            </div>
+
+            <cps:oneSelect label="活动信息:" target="activity_id" source="activity.ActivityList" required="1" />
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">二维码：</label>
+                <div class="row">
+                    <div class="col-sm-9 col-lg-3">
+                        <button id="btn_update" class="btn btn-primary">更新二维码</button>
+                    </div>
+                </div>
+                <img style="margin-left: 165px;" src="{$list.qr_url}"  alt="员工推广二维码"  />
+                <label style="margin-left: 30px;" >{$list.activity_id}</label>
+            </div>
+        </div>
+        <!-- <footer class="panel-footer">
+            
+        </footer> -->
+    </section>
+</form>
+</block>
+<block name="spec">
+    <script>
+
+
+
+        $('#btn_update').click(function () {
+            var activity_id = $("select[name='UserCenterActivity_id']").val()
+            var sales_id = "{$list.id}";
+            $.ajax({
+                url: "https://www.curioo.com.cn/api/updateUserQrcode", // 发送地址
+                type: 'post',
+                data: {
+                    activity_id: activity_id,
+                    sales_id: sales_id
+                },
+                success: function (res) {
+                    console.log(res)
+                    if(res.code==200){
+                        alert("二维码更新成功");
+                        window.location.href="https://www.curioo.com.cn/UserCenter/list.html";
+                    }
+                },
+                error: function (res) {
+                    //that.postLock = true;
+                }
+            });
+        })
+    </script>
+</block>

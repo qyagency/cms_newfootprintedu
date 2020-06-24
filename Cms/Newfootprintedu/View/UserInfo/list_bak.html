@@ -1,0 +1,941 @@
+Form
+<extend name="Layout:index" />
+<block name="title">客户信息 - 列表</block>
+<block name="main">
+    <style type="text/css">
+        table {}
+
+        .add {
+            border-bottom: 10px solid #666666;
+            /*下面4行是实现超过td文字变省略号,另外还要给table加上table-layout:fixed;*/
+            text-overflow: ellipsis;
+            -moz-text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        #atable {
+            width: 1492px;
+        }
+
+        #atable thead th:first-child {
+            width: 52px !important;
+        }
+
+        .activityLink {
+            width: auto;
+            margin-right: 0 !important;
+        }
+
+        .activityLink {
+            background-color: #43CD80;
+            color: #ffffff;
+
+        }
+
+        .screen {
+            position: absolute;
+            height: 34px;
+            z-index: 1;
+        }
+
+        .screen .item {
+            float: left;
+            height: 100%;
+            margin-right: 10px;
+        }
+
+        .screen .item .lab {
+            float: left;
+            line-height: 34px;
+        }
+
+        .screen .item input,
+        .screen .item select {
+            width: 120px;
+            height: 34px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 0 10px;
+        }
+
+
+        #keyword {
+            width: 300px;
+        }
+
+        #infoPage span {
+            color: #0088cc;
+            cursor: pointer;
+        }
+
+        #infoPage span.no {
+            color: #cccccc;
+            cursor: no-drop;
+        }
+
+
+        .table-bordered>thead>tr>th,
+        .table-bordered>tbody>tr>th,
+        .table-bordered>tfoot>tr>th,
+        .table-bordered>thead>tr>td,
+        .table-bordered>tbody>tr>td,
+        .table-bordered>tfoot>tr>td {
+            border: 0px solid #ddd;
+        }
+
+        .table-bordered {
+            border: 0px solid #ddd;
+
+        }
+
+        th {
+            background-color: #f4f4f4;
+        }
+
+        tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        select {
+            display: block;
+            /*清除默认样式*/
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            position: relative;
+            height: 27px;
+            border-radius: 3px;
+            width: 118px;
+            background: #fff;
+            float: left;
+            line-height: 27px;
+            text-indent: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 0px 30px 0px 0px;
+        }
+        option{
+            text-indent: 5px;
+        }
+
+        /*清除ie下面的默认样式*/
+        select::-ms-expand {
+            display: none;
+        }
+
+        .ktx-mu-box {
+            position: relative;
+            height: 27px;
+            border-radius: 3px;
+            width: 118px;
+            background: #fff;
+            float: left;
+            line-height: 27px;
+            text-indent: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-right: 30px;
+        }
+
+        .ktx-mu-box::after {
+            position: absolute;
+            display: block;
+            content: '';
+            right: 10px;
+            top: 12px;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 6px solid #777;
+        }
+
+        .ktx-form-box {
+            float: left;
+            margin-right: 15px;
+            margin-bottom: 5px;
+        }
+
+        .ktx-form-line {
+            overflow: hidden;
+            padding: 5px 0px;
+        }
+
+        .ktx-form-btn {
+            text-align: center;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 5px;
+            background: #444;
+            color: #fff;
+            /* margin: 10px 0px 20px 820px; */
+            margin: 10px 0px 20px 0px;
+        }
+
+        .ktx-form-btn-t {
+            display: block;
+            text-align: center;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 5px;
+            background: #444;
+            color: #fff;
+            margin: 10px 0px 20px 0px;
+        }
+
+        .cover-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            z-index: 666;
+            top: 0;
+            left: 0;
+            display: none;
+        }
+
+        .ktx-pj {
+            position: absolute;
+            width: 300px;
+            height: 170px;
+            background: #fff;
+            z-index: 666;
+            top: 50%;
+            left: 50%;
+            margin-left: -150px;
+            margin-top: -100px;
+            box-shadow: #999 0px 0px 10px;
+            border-radius: 5px;
+            padding: 40px;
+        }
+
+        .ktx-form-btn-sure {
+            text-align: center;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 5px;
+            background: #444;
+            color: #fff;
+            margin: 20px 0px 0px 0px;
+            margin-right: 10px;
+            float: left;
+        }
+
+        .select-ll {
+            width: 200px;
+        }
+
+        .ktx-pj-scroll {
+            height: 250px;
+        }
+
+
+        .ktx-scroll {
+            height: 130px;
+        }
+
+        .ktx-scroll-y {
+            overflow-y: scroll;
+        }
+
+        .ktx-table {
+            float: left;
+            margin-top: 4px;
+        }
+
+        .kt-val-msg {
+            float: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .js-tk-checked {
+            overflow: hidden;
+        }
+
+        input {
+            border: none;
+            text-align: 5px;
+        }
+
+        .table-bordered>thead>tr>th,
+        .table-bordered>tbody>tr>th,
+        .table-bordered>tfoot>tr>th,
+        .table-bordered>thead>tr>td,
+        .table-bordered>tbody>tr>td,
+        .table-bordered>tfoot>tr>td {
+            line-height: 35px;
+        }
+
+        .ktx-form-btn-reset {
+            float: left;
+            margin-left: 20px;
+        }
+
+        .ktx-form-btn-f {
+            float: left;
+        }
+
+        .ktx-form-btn:hover {
+            cursor: pointer;
+        }
+
+
+        input[type="date"] {
+            text-indent: 0px;
+        }
+
+        .ktx-pj div input{
+            border:#cccccc solid 1px;
+        }
+
+        .ktx-mu-box-h{
+            width: 200px;
+        }
+    </style>
+    <div class="cover-bg js-ktx-pj">
+        <!--评级修改-->
+        <div class="ktx-pj">
+            <div class="ktx-mu-box ktx-mu-box-h">
+                <select class="select-ll" id="sel-pj">
+                    <option value="高">高</option>
+                    <option value="中">中</option>
+                    <option value="低">低</option>
+                </select>
+            </div>
+            <div class="ktx-form-btn-sure js-ktx-pj-sure">确定</div>
+            <div class="ktx-form-btn-sure js-ktx-pj-cancel">取消</div>
+        </div>
+        <!--评级修改-->
+    </div>
+
+    <div class="cover-bg js-ktx-mk">
+        <!--评级修改-->
+        <div class="ktx-pj">
+            <div>
+                <input class="select-ll" placeholder="请输入" id="ktx-mk-input" />
+            </div>
+            <div class="ktx-form-btn-sure js-ktx-mk-sure">确定</div>
+            <div class="ktx-form-btn-sure js-ktx-mk-cancel">取消</div>
+        </div>
+        <!--评级修改-->
+    </div>
+
+    <div class="cover-bg js-ktx-options">
+        <!--评级修改-->
+        <div class="ktx-pj ktx-pj-scroll">
+            <div class="ktx-scroll"></div>
+            <div class="ktx-form-btn-sure js-ktx-options-sure">确定</div>
+            <div class="ktx-form-btn-sure js-ktx-options-cancel">取消</div>
+        </div>
+        <!--评级修改-->
+    </div>
+
+    <section class="panel">
+        <!--表单-->
+        <div>
+            <!--第一行-->
+            <div class="ktx-form-line">
+                <div class="ktx-form-box">
+                    注册时间：
+                    <input type="date" id="re_start_date" />
+                    -
+                    <input type="date" id="re_end_date" />
+                </div>
+                <div class="ktx-form-box">
+                    预约时间：
+                    <input type="date" id="book_start_date" />
+                    -
+                    <input type="date" id="book_end_date" />
+                </div>
+                <div class="ktx-form-box">
+                    <div class="ktx-table">活动渠道：</div>
+                    <div class="ktx-mu-box" id="ktx-ch">全部</div>
+                </div>
+            </div>
+            <!--第一行-->
+            <!--第二行-->
+            <div class="ktx-form-line">
+                <div class="ktx-form-box">
+                    <div class="ktx-table">活动名称：</div>
+                    <div class="ktx-mu-box" id="ktx-aname">全部</div>
+                </div>
+                <div class="ktx-form-box">
+                    <div class="ktx-table">表单编号：</div>
+                    <div class="ktx-mu-box" id="ktx-tnum">全部</div>
+                </div>
+                <div class="ktx-form-box">
+                    学员姓名：
+                    <input placeholder="请输入学员姓名" id="l_name">
+                </div>
+                <div class="ktx-form-box">
+                    <div class="ktx-table">学员性别：</div>
+                    <div class="ktx-mu-box">
+                        <select id="ktx-gd">
+                            <option selected="selected">全部</option>
+                            <option>男</option>
+                            <option>女</option>
+                        </select>
+                    </div>
+                </div>
+            </div class="ktx-form-line">
+            <!--第二行-->
+            <!--第三行-->
+            <div class="ktx-form-line">
+                <div class="ktx-form-box">
+                    <div class="ktx-table">学员年龄：</div>
+                    <div class="ktx-mu-box" id="ktx-gl">全部</div>
+                </div>
+                <div class="ktx-form-box">
+                    <div class="ktx-table">学员学校：</div>
+                    <div class="ktx-mu-box" id="ktx-sch">全部</div>
+                </div>
+                <div class="ktx-form-box">
+                    <div class="ktx-table">家长手机：</div>
+                    <input placeholder="请输入家长手机" id="l_mobile">
+                </div>
+                <div class="ktx-form-box">
+                    <div class="ktx-table">所属关系：</div>
+                    <div class="ktx-mu-box" id="ktx-rl">全部</div>
+                </div>
+            </div>
+            <!--第三行-->
+            <div style="overflow: hidden;">
+                <div class="ktx-form-btn ktx-form-btn-f" id="select-btn">
+                    搜索
+                </div>
+
+                <div class="ktx-form-btn ktx-form-btn-reset" id="reset-btn">
+                    重置选项
+                </div>
+            </div>
+        </div>
+        <!--表单-->
+        <div class="panel-body" style="overflow:scroll;">
+            <table class="table table-bordered table-condensed mb-none">
+                <thead>
+                    <tr>
+                        <th width="50px">序号</th>
+                        <th width="50px">是否重复</th>
+                        <th>表单编号</th>
+                        <th>活动渠道</th>
+                        <th>活动名称</th>
+                        <th>注册时间</th>
+                        <th>家长手机</th>
+                        <th>预约时间</th>
+                        <th>学员姓名</th>
+                        <th>学员性别</th>
+                        <th>学员年级</th>
+                        <th>学员学校</th>
+                        <th>所属关系</th>
+                        <th>评级</th>
+                        <th>备注</th>
+                        <th>员工姓名</th>
+                        <th>所在地区</th>
+                        <th>所属门店</th>
+                    </tr>
+                </thead>
+                <tbody id="ktx-table">
+                    <volist name="list" id="vo" key="k">
+                        <tr id="UserInfo_{$k}">
+                            <td>{$vo.id}</td>
+                            <td>{$vo.is_repeat}</td>
+                            <td>{$vo.form_id}</td>
+                            <td>{$vo.channel_name}</td>
+                            <td>{$vo.activity_name}</td>
+                            <td class="add">{$vo.user_union_id}</td>
+                            <td>{$vo.user_mobile}</td>
+                            <td>{$vo.submit_date}</td>
+                            <td class="add">{$vo.user_name}</td>
+                            <td class="add">{$vo.user_gender}</td>
+                            <td class="add">{$vo.user_grade}</td>
+                            <td class="add">{$vo.user_school}</td>
+                            <td class="add">{$vo.user_relation}</td>
+                            <td class="add">
+                                <lo class="js-rate">{$vo.user_rate}</lo><i class="fa fa-pencil fa-pencil-a"></i>
+                            </td>
+                            <td class="add">
+                                <lo class="js-remark">{$vo.remark}</lo><i class="fa fa-pencil fa-pencil-b"></i>
+                            </td>
+                            <td class="add">{$vo.sales_name}</td>
+                            <td class="add">{$vo.area_name}</td>
+                            <td class="add">{$vo.store_name}</td>
+                        </tr>
+                    </volist>
+                </tbody>
+            </table>
+            {$page}
+        </div>
+        <a class="ktx-form-btn-t" href="https://www.curioo.com.cn/api/exportExcelForUserInfo">
+            导出
+        </a>
+    </section>
+    <script>
+        $(function () {
+            let options_arr = [];
+
+            let edit_id = '';
+            let edit_index = -1;
+
+            $('.js-ktx-pj-sure').click(function () {
+                setRate();
+            })
+
+            $('.js-ktx-mk-sure').click(function () {
+                setMark();
+            })
+
+            $('.js-ktx-pj-cancel').click(function () {
+                $('.js-ktx-pj').hide();
+            })
+
+            $('.js-ktx-mk-cancel').click(function () {
+                $('.js-ktx-mk').hide();
+            })
+
+            $('.js-ktx-options-cancel').click(function () {
+                $('.js-ktx-options').hide();
+            });
+
+            $('#re_start_date').val(dateFormat('yyyy-MM-dd',new Date()));
+            $('#re_end_date').val(dateFormat('yyyy-MM-dd',new Date()));
+
+            let edit_str = '';
+            let ch_str = '';
+
+            //活动渠道选择
+            $('#ktx-ch').click(function () {
+                edit_str = 'ktx-ch';
+                ch_str = '';
+                showOptionsChoice(options_arr.channelList);
+            })
+
+            $('#ktx-aname').click(function () {
+                edit_str = 'ktx-aname';
+                ch_str = '';
+                showOptionsChoice(options_arr.activityList);
+            })
+
+            $('#ktx-tnum').click(function () {
+                edit_str = 'ktx-tnum';
+                ch_str = '';
+                showOptionsChoice(options_arr.formList);
+            })
+
+            $('#ktx-gl').click(function () {
+                edit_str = 'ktx-gl';
+                ch_str = '';
+                showOptionsChoice(options_arr.gradeList);
+            })
+
+            $('#ktx-sch').click(function () {
+                edit_str = 'ktx-sch';
+                ch_str = '';
+                showOptionsChoice(options_arr.schoolList);
+            })
+
+            $('#ktx-rl').click(function () {
+                edit_str = 'ktx-rl';
+                ch_str = '';
+                showOptionsChoice(options_arr.relationList);
+            })
+
+            $('.js-ktx-options-sure').click(function () {
+                let str = '';
+                $('.js-tk-checked').find('input').each(function () {
+                    let is_ch = $(this).prop('checked');
+                    let index = $('.js-tk-checked').find('input').index($(this));
+                    if (is_ch) {
+                        str += $('.kt-val-msg').eq(index).text() + ',';
+                    }
+                })
+                if (str == '') {
+                    str = '全部';
+                } else {
+                    str = str.substring(0, str.length - 1)
+                }
+                $('#' + edit_str).text(str);
+                console.log(str);
+                $('.js-ktx-options').hide();
+            });
+
+            function showOptionsChoice(options_arr) {
+                let i = 0;
+                let value = $('#' + edit_str).text();
+                if (value == '全部') {
+                    options_arr.forEach(element => {
+                        ch_str +=
+                            '<div class="js-tk-checked"><input style="margin-right:5px;float:left" type="checkbox" /><div class="kt-val-msg">' +
+                            element + '</div></div>';
+                    });
+                } else {
+                    let arr_val = value.split(',');
+                    options_arr.forEach(element => {
+                        let has = false;
+                        arr_val.forEach(el => {
+                            if (element == el) {
+                                has = true;
+                            }
+                        });
+
+                        if (has) {
+                            ch_str +=
+                                '<div class="js-tk-checked"><input style="margin-right:5px;float:left" type="checkbox" checked /><div class="kt-val-msg">' +
+                                element + '</div></div>';
+                        } else {
+                            ch_str +=
+                                '<div class="js-tk-checked"><input style="margin-right:5px;float:left" type="checkbox" /><div class="kt-val-msg">' +
+                                element + '</div></div>';
+                        }
+
+                    });
+                }
+                if (value == '全部') {
+                    ch_str =
+                        '<div class="js-tk-checked"><input style="margin-right:5px;float:left" type="checkbox" checked/><div class="kt-val-msg">全部</div></div>' +
+                        ch_str;
+                } else {
+                    ch_str =
+                        '<div class="js-tk-checked"><input style="margin-right:5px;float:left" type="checkbox" /><div class="kt-val-msg">全部</div></div>' +
+                        ch_str;
+                }
+                $('.ktx-scroll').html(ch_str);
+                if (options_arr.length >= 7) {
+                    $('.ktx-scroll').addClass('ktx-scroll-y');
+                } else {
+                    $('.ktx-scroll').removeClass('ktx-scroll-y');
+                }
+                $('.js-ktx-options').show();
+
+                $('.kt-val-msg').on('click', function () {
+                    let index = $('.kt-val-msg').index($(this));
+                    let is_checked = $('.js-tk-checked').eq(index).find('input').prop('checked');
+                    console.log(is_checked);
+                    if (!is_checked) {
+                        $('.js-tk-checked').eq(index).find('input').prop('checked', true);
+                    } else {
+                        $('.js-tk-checked').eq(index).find('input').prop('checked', false);
+                    }
+
+                    if (index != 0) {
+                        if ($('.js-tk-checked').eq(0).find('input').prop('checked')) {
+                            $('.js-tk-checked').eq(0).find('input').prop('checked', false);
+                        }
+                    } else {
+                        if ($('.js-tk-checked').eq(0).find('input').prop('checked')) {
+                            $('.js-tk-checked').find('input').each(function () {
+                                let i_index = $('.js-tk-checked').find('input').index($(this));
+                                if (i_index != 0) {
+                                    $(this).prop('checked', false);
+                                }
+                            })
+                        }
+                    }
+                });
+
+                $('.js-tk-checked input').on('click', function () {
+                    let index = $('.js-tk-checked input').index($(this));
+                    if (index != 0) {
+                        if ($('.js-tk-checked').eq(0).find('input').prop('checked')) {
+                            $('.js-tk-checked').eq(0).find('input').prop('checked', false);
+                        }
+                    } else {
+                        if ($('.js-tk-checked').eq(0).find('input').prop('checked')) {
+                            $('.js-tk-checked').find('input').each(function () {
+                                let i_index = $('.js-tk-checked').find('input').index($(this));
+                                if (i_index != 0) {
+                                    $(this).prop('checked', false);
+                                }
+                            })
+                        }
+                    }
+                });
+            }
+
+            //设置评级
+            function setRate() {
+                $.ajax({
+                    url: "https://www.curioo.com.cn/api/updateUserRate",
+                    type: 'post',
+                    data: {
+                        id: edit_id,
+                        user_rate: $('#sel-pj').val()
+                    },
+                    success: function (res) {
+                        $('.js-ktx-pj').hide();
+                        $('.js-rate').eq(edit_index).html($('#sel-pj').val());
+                    },
+                    error: function (res) {
+                        //that.postLock = true;
+                    }
+                });
+            }
+
+            //设置备注
+            function setMark() {
+                $.ajax({
+                    url: "https://www.curioo.com.cn/api/updateUserRemark",
+                    type: 'post',
+                    data: {
+                        id: edit_id,
+                        remark: $('#ktx-mk-input').val()
+                    },
+                    success: function (res) {
+                        console.log(res);
+                        $('.js-ktx-mk').hide();
+                        $('.js-remark').eq(edit_index).html($('#ktx-mk-input').val());
+                    },
+                    error: function (res) {
+                        //that.postLock = true;
+                    }
+                });
+            }
+
+
+            $.ajax({
+                url: "https://www.curioo.com.cn/api/getDropDownInfo",
+                type: 'post',
+                // data: {
+                //     user_project: lival
+                // },
+                success: function (res) {
+                    console.log(res)
+                    options_arr = res;
+                    //初始化渠道
+                    // let ch_str = '<option>全部</option>';
+                    // res.channelList.forEach(element => {
+                    //     ch_str += '<option>' + element + '</option>';
+                    // });
+                    // $('#ktx-ch').html(ch_str) //渠道
+
+                    // let ch_aname = '<option>全部</option>';
+                    // res.activityList.forEach(element => {
+                    //     ch_aname += '<option>' + element + '</option>';
+                    // });
+                    // $('#ktx-aname').html(ch_aname) //活动名称
+
+                    // let tnum_str = '<option>全部</option>';
+                    // res.formList.forEach(element => {
+                    //     tnum_str += '<option>' + element + '</option>';
+                    // });
+                    // $('#ktx-tnum').html(tnum_str) //表单编号
+
+                    // let gl_str = '<option>全部</option>';
+                    // res.gradeList.forEach(element => {
+                    //     gl_str += '<option>' + element + '</option>';
+                    // });
+                    // $('#ktx-gl').html(gl_str) //学员年龄
+
+
+                    // let sch_str = '<option>全部</option>';
+                    // res.schoolList.forEach(element => {
+                    //     sch_str += '<option>' + element + '</option>';
+                    // });
+                    // $('#ktx-sch').html(sch_str) //学员学校
+
+
+                    // let rl_str = '<option>全部</option>';
+                    // res.relationList.forEach(element => {
+                    //     rl_str += '<option>' + element + '</option>';
+                    // });
+                    // $('#ktx-rl').html(rl_str) //学员学校
+                },
+                error: function (res) {
+                    //that.postLock = true;
+                }
+            });
+
+            $('#reset-btn').click(function () {
+                $('#re_start_date').val('');
+                $('#re_end_date').val('');
+                $('#book_start_date').val('');
+                $('#book_end_date').val('');
+                $('#l_mobile').val('');
+                $('#l_name').val('');
+
+                $('#ktx-ch').text('全部') //渠道
+                $('#ktx-aname').text('全部') //活动名称
+                $('#ktx-tnum').text('全部') //表单编号
+                $('#ktx-gl').text('全部') //学员年龄
+                $('#ktx-sch').text('全部') //学员学校
+                $('#ktx-rl').text('全部') //学员学校
+
+                $('#ktx-gd').val('全部') //学员性别
+            })
+            
+
+            function getDataList() {
+                let re_start_date = $('#re_start_date').val();
+                let re_end_date = $('#re_end_date').val();
+                let book_start_date = $('#book_start_date').val();
+                let book_end_date = $('#book_end_date').val();
+                let l_mobile = $('#l_mobile').val();
+                let l_name = $('#l_name').val();
+
+                let ktx_ch = $('#ktx-ch').text() //渠道
+                let ktx_aname = $('#ktx-aname').text() //活动名称
+                let ktx_tnum = $('#ktx-tnum').text() //表单编号
+                let ktx_gl = $('#ktx-gl').text() //学员年龄
+                let ktx_sch = $('#ktx-sch').text() //学员学校
+                let ktx_rl = $('#ktx-rl').text() //学员学校
+
+                let ktx_gd = $('#ktx-gd').val() //学员性别
+
+                console.log(re_start_date);
+                console.log(book_start_date);
+                console.log(book_end_date);
+                console.log(ktx_ch);
+                let p_data = {};
+                if (re_start_date) {
+                    p_data['reg_start_time'] = re_start_date;
+                }
+                if (re_end_date) {
+                    p_data['reg_end_time'] = re_end_date;
+                }
+                if (book_start_date) {
+                    p_data['book_start_time'] = book_start_date;
+                }
+                if (book_end_date) {
+                    p_data['book_end_time'] = book_end_date;
+                }
+                if (l_mobile) {
+                    p_data['user_mobile'] = l_mobile;
+                }
+                if (l_name) {
+                    p_data['user_name'] = l_name;
+                }
+                if (ktx_ch != '' && ktx_ch != '全部') {
+                    p_data['channel_name'] = ktx_ch
+                }
+                if (ktx_aname != '' && ktx_aname != '全部') {
+                    p_data['activity_name'] = ktx_aname
+                }
+                if (ktx_tnum != '' && ktx_tnum != '全部') {
+                    p_data['form_id'] = ktx_tnum
+                }
+                if (ktx_gd != '' && ktx_gd != '全部') {
+                    p_data['user_gender'] = ktx_gd
+                }
+                if (ktx_gl != '' && ktx_gl != '全部') {
+                    p_data['user_grade'] = ktx_gl
+                }
+                if (ktx_sch != '' && ktx_sch != '全部') {
+                    p_data['user_school'] = ktx_sch
+                }
+
+                if (ktx_rl != '' && ktx_rl != '全部') {
+                    p_data['user_relation'] = ktx_rl
+                }
+
+                $.ajax({
+                    url: "https://www.curioo.com.cn/api/getUserInfoByFilt",
+                    type: 'post',
+                    data: p_data,
+                    success: function (res) {
+                        console.log(res);
+                        let t_str = '';
+                        $('#ktx-table').html('');
+                        let i = 1;
+                        res.user_info.forEach(element => {
+                            let user_rate = element.user_rate ? element.user_rate : '';
+                            let remark = element.remark ? element.remark : '';
+
+                            t_str += `<tr id="UserInfo_` + i + `">
+                                <td>` + element.id + `</td>
+                                <td>` + element.is_repeat + `</td>
+                                <td>` + element.form_id + `</td>
+                                <td>` + element.channel_name + `</td>
+                                <td>` + element.activity_name + `</td>
+                                <td class="add">` + element.submit_date + `</td>
+                                <td>` + element.user_mobile + `</td>
+                                <td>` + element.booking_time + `</td>
+                                <td class="add">` + element.user_name + `</td>
+                                <td class="add">` + element.user_gender + `</td>
+                                <td class="add">` + element.user_grade + `</td>
+                                <td class="add">` + element.user_school + `</td>
+                                <td class="add">` + element.user_relation + `</td>
+                                <td class="add"><lo class="js-rate">` + user_rate +
+                                `</lo><i class="fa fa-pencil fa-pencil-a" id="` + element
+                                .id + `" data-val="` + user_rate + `"></i></td>
+                                <td class="add"><lo class="js-remark">` + remark +
+                                `</lo><i class="fa fa-pencil fa-pencil-b" id="` + element
+                                .id +
+                                `" data-val="` + remark + `"></i></td>
+                                <td class="add">` + element.sales_name + `</td>
+                                <td class="add">` + element.area_name + `</td>
+                                <td class="add">` + element.store_name + `</td>
+                            </tr>`;
+
+                            i++;
+                        });
+                        $('#ktx-table').html(t_str);
+
+                        $('.fa-pencil-a').on('click', function () {
+                            edit_id = $(this).attr('id');
+                            edit_index = $('.fa-pencil-a').index($(this));
+                            let edit_value = $(this).attr('data-val');
+                            if (edit_value) {
+                                $('#sel-pj').val(edit_value)
+                            } else {
+                                $('#sel-pj').val('高')
+                            }
+                            //设置评级
+                            // setRate(id, value);
+                            $('.js-ktx-pj').show();
+
+                        })
+                        $('.fa-pencil-b').on('click', function () {
+                            edit_id = $(this).attr('id');
+                            edit_index = $('.fa-pencil-b').index($(this));
+                            let edit_value = $(this).attr('data-val');
+                            if (edit_value) {
+                                $('#ktx-mk-input').val(edit_value)
+                            } else {
+                                $('#ktx-mk-input').val('')
+                            }
+                            $('.js-ktx-mk').show();
+                            //设置备注
+                            // setMark(id, value);
+                        })
+                    },
+                    error: function () {
+                        //that.postLock = true;
+                    }
+                });
+            }
+
+
+            $('#select-btn').click(function () {
+                getDataList();
+            });
+
+            function dateFormat(fmt, date) {
+                var o = {
+                    "M+": date.getMonth() + 1, //月份   
+                    "d+": date.getDate(), //日   
+                    "h+": date.getHours(), //小时   
+                    "m+": date.getMinutes(), //分   
+                    "s+": date.getSeconds(), //秒   
+                    "q+": Math.floor((date.getMonth() + 3) / 3), //季度   
+                    "S": date.getMilliseconds() //毫秒   
+                };
+                if (/(y+)/.test(fmt))
+                    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+                for (var k in o)
+                    if (new RegExp("(" + k + ")").test(fmt))
+                        fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr((
+                            "" + o[k]).length)));
+                return fmt;
+            }
+
+            getDataList();
+        });
+    </script>
+</block>
+<block name="spec">
+</block>

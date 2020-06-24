@@ -1,0 +1,42 @@
+<header class="header">
+    <div class="logo-container">
+        <a href="../" class="logo">
+            <!--<img src="/Public/chellon/image/common/logo.jpg" height="35" alt="壳隆官网 | 管理后台" />-->
+            Curiookids管理后台
+        </a>
+        <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
+            <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+        </div>
+    </div>
+
+    <!-- start: search & user box -->
+    <div class="header-right">
+        <span class="separator"></span>
+        <div id="userbox" class="userbox">
+            <a href="#" data-toggle="dropdown">
+                <figure class="profile-picture">
+                    <!--<img src="__UPLOAD__/{$Think.session.user.photo}" alt="{$Think.session.user.nickname}" class="img-circle" data-lock-picture="__UPLOAD__/{$Think.session.user.photo}" />-->
+                </figure>
+                <div class="profile-info" data-lock-name="{$Think.session.user.nickname}" data-lock-email="{$Think.session.user.email}">
+                    <span class="name">{$Think.session.user.nickname}</span>
+                    <span class="role">{$Think.session.groupName}</span>
+                </div>
+
+                <i class="fa custom-caret"></i>
+            </a>
+
+            <div class="dropdown-menu">
+                <ul class="list-unstyled">
+                    <li class="divider"></li>
+                    <li>
+                        <a role="menuitem" tabindex="-1" href="{:U('user/info')}"><i class="fa fa-user"></i> 我的资料</a>
+                    </li>
+                    <li>
+                        <a role="menuitem" tabindex="-1" href="{:U('sign/out')}"><i class="fa fa-power-off"></i> 退出</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- end: search & user box -->
+</header>

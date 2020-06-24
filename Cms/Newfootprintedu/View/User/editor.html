@@ -1,0 +1,86 @@
+<extend name="Layout:index" />
+<block name="title">用户管理 - 编辑</block>
+<block name="main">
+    <form class="ajaxForm form-horizontal form-bordered" method="post" novalidate="novalidate">
+        <section class="panel">
+            <div class="panel-body pb-xlg">
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="NickName">
+                        帐号<span class="required">*</span>
+                    </label>
+                    <div class="col-md-8">
+                        <section class="form-group-vertical">
+                            <div class="input-group input-group-icon">
+                            <span class="input-group-addon">
+                                <span class="icon"><i class="fa fa-user"></i></span>
+                            </span>
+                                <input id="UserName" name="UserName" value="{$vo.username}" class="form-control" type="text" placeholder="帐号" required>
+                            </div>
+                            <div class="input-group input-group-icon">
+                            <span class="input-group-addon">
+                                <span class="icon"><i class="fa fa-user-plus"></i></span>
+                            </span>
+                                <input id="NickName" name="NickName" value="{$vo.nickname}" class="form-control" type="text" placeholder="昵称" required>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="Password">
+                        密码<eq name="Think.ACTION_NAME" value="insert"><span class="required">*</span></eq>
+                    </label>
+                    <div class="col-md-8">
+                        <div class="input-group input-group-icon">
+                            <span class="input-group-addon">
+                                <span class="icon"><i class="fa fa-lock"></i></span>
+                            </span>
+                            <input type="password" id="PassWord" name="PassWord" class="form-control" placeholder="密码（不修改请留空）" <eq name="Think.ACTION_NAME" value="insert">required</eq>>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="Email">
+                        邮箱<span class="required">*</span>
+                    </label>
+                    <div class="col-md-8">
+                        <input id="Email" name="Email" value="{$vo.email}" class="form-control" type="text" placeholder="邮箱" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">
+                        权限组<span class="required">*</span>
+                    </label>
+                    <div class="col-md-8">
+                        <select class="form-control mb-md" name="Group" size="{$groupList | count}" required>
+                            <volist name="groupList" id="group">
+                                <option value="{$group.id}" <eq name="vo.group_id" value="$group.id">selected</eq>>{$group.name}</option>
+                            </volist>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">状态</label>
+                    <div class="col-md-8">
+                        <div class="switch switch-sm switch-primary">
+                            <input type="checkbox" name="Status" <neq name="vo.status" value="0">checked</neq> data-plugin-ios-switch />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-9 col-lg-3">
+                        <button class="btn btn-primary">保存</button>
+                        <a class="btn btn-primary ml-lg">取消</a>
+                    </div>
+                </div>
+            </footer>
+        </section>
+    </form>
+</block>
+<block name="cpvav">
+
+</block>
+<block name="spec">
+    <include file="Public:formUP" />
+</block>

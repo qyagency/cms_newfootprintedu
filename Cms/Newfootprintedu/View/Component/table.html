@@ -1,0 +1,71 @@
+<style>
+    table td, table th {
+        white-space: nowrap;
+    }
+
+    table td .title {
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+    }
+</style>
+<script>
+    $(function () {
+        'use strict';
+
+        /*
+         Positions
+         */
+        var stack_topleft = {"dir1": "down", "dir2": "right", "push": "top"};
+        var stack_bottomleft = {"dir1": "right", "dir2": "up", "push": "top"};
+        var stack_bottomright = {"dir1": "up", "dir2": "left", "firstpos1": 15, "firstpos2": 15};
+        var stack_bar_top = {"dir1": "down", "dir2": "right", "push": "top", "spacing1": 0, "spacing2": 0};
+        var stack_bar_bottom = {"dir1": "up", "dir2": "right", "spacing1": 0, "spacing2": 0};
+
+
+        $('#datatable').dataTable({
+            "bLengthChange": false,
+        });
+        $('#datatable').on('draw.dt', function () {
+            initConfirmation();
+        });
+        function initConfirmation() {
+            $('[data-toggle="confirmation"]').confirmation({
+                onConfirm: function () {
+                    var that = $('#' + $(this).attr('target'));
+                    $.ajax({
+                        url: $(this).attr('href'), success: function (data) {
+                            if (data.status == 1) {
+                                // success
+                                var notice = new PNotify({
+                                    title: '删除成功',
+                                    text: data.info,
+                                    type: 'success',
+                                    addclass: 'stack-bar-top',
+                                    stack: stack_bar_top,
+                                    width: "100%"
+                                });
+                                that.remove();
+                            } else {
+                                // error
+                                var notice = new PNotify({
+                                    title: '删除失败',
+                                    text: data.info,
+                                    type: 'error',
+                                    addclass: 'stack-bar-top',
+                                    stack: stack_bar_top,
+                                    width: "100%"
+                                });
+                            }
+                        }
+                    });
+                },
+                onCancel: function () {
+                }
+            });
+        }
+
+        initConfirmation();
+    });
+</script>

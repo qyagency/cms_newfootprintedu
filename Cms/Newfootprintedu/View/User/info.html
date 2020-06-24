@@ -1,0 +1,91 @@
+<extend name="Layout:index" />
+<block name="title">用户管理 - 编辑</block>
+<block name="main">
+    <form class="ajaxForm form-horizontal form-bordered" method="post" novalidate="novalidate">
+        <section class="panel">
+            <div class="panel-body pb-xlg">
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="NickName">
+                        帐号<span class="required">*</span>
+                    </label>
+                    <div class="col-md-8">
+                        <section class="form-group-vertical">
+                            <div class="input-group input-group-icon">
+                            <span class="input-group-addon">
+                                <span class="icon"><i class="fa fa-user"></i></span>
+                            </span>
+                                <input id="UserName" name="UserName" value="{$vo.username}" class="form-control" type="text" placeholder="帐号" required>
+                            </div>
+                            <div class="input-group input-group-icon">
+                            <span class="input-group-addon">
+                                <span class="icon"><i class="fa fa-user-plus"></i></span>
+                            </span>
+                                <input id="NickName" name="NickName" value="{$vo.nickname}" class="form-control" type="text" placeholder="昵称" required>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="Password">
+                        密码<eq name="Think.ACTION_NAME" value="insert"><span class="required">*</span></eq>
+                    </label>
+                    <div class="col-md-8">
+                        <div class="input-group input-group-icon">
+                            <span class="input-group-addon">
+                                <span class="icon"><i class="fa fa-lock"></i></span>
+                            </span>
+                            <input type="password" id="PassWord" name="PassWord" class="form-control" placeholder="密码（不修改请留空）" <eq name="Think.ACTION_NAME" value="insert">required</eq>>
+                        </div>
+                    </div>
+                </div>
+<!--                <div class="form-group">-->
+<!--                    <label class="col-md-2 control-label" for="Email">-->
+<!--                        邮箱<span class="required">*</span>-->
+<!--                    </label>-->
+<!--                    <div class="col-md-8">-->
+<!--                        <input id="Email" name="Email" value="{$vo.email}" class="form-control" type="text" placeholder="邮箱" required>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <label class="col-md-2 control-label">用户头像<span class="required">*</span></label>-->
+<!--                    <notempty name="vo.photo">-->
+<!--                        <div class="col-md-2">-->
+<!--                            <div class="thumbnail">-->
+<!--                                <input type="hidden" name="existedThumbnail" value="{$vo.photo}"/>-->
+<!--                                <a class="upareaRemove btn btn-xs" data-target="thumbnail"><i class="fa fa-remove"></i>删除</a>-->
+<!--                                <a class="upareaUnRemove btn btn-xs" data-target="thumbnail"><i class="fa fa-reply"></i>恢复</a>-->
+<!--                                <div class="thumb-preview">-->
+<!--                                    <img src="__UPLOAD__/{$vo.photo}" class="img-responsive">-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </notempty>-->
+<!--                    <div id="thumbnail" class="col-md-6" style="display: none;">-->
+<!--                        <div class="fileupload fileupload-new mb-md" data-provides="fileupload" >-->
+<!--                            <div class="input-append validate-area">-->
+<!--                                <div class="uneditable-input">-->
+<!--                                    <i class="fa fa-file fileupload-exists"></i>-->
+<!--                                    <span class="fileupload-preview"></span>-->
+<!--                                </div>-->
+<!--                        <span class="btn btn-default btn-file">-->
+<!--                            <span class="fileupload-exists">变更</span>-->
+<!--                            <span class="fileupload-new">选择文件</span>-->
+<!--                            <input id="singleUpload" type="file" name='thumbnail' <empty name="vo.photo">required</empty>/>-->
+<!--                        </span>-->
+<!--                                <a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload">移除</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+            <footer class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-9 col-lg-3">
+                        <button class="btn btn-primary">保存</button>
+                        <a class="btn btn-primary ml-lg">取消</a>
+                    </div>
+                </div>
+            </footer>
+        </section>
+    </form>
+</block>

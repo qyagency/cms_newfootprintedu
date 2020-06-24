@@ -1,0 +1,113 @@
+<!doctype html>
+<html class="fixed">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        <block name="title"></block> | HAPPY-SHARE Admin - Responsive HTML5 CMS
+    </title>
+    <meta name="keywords" content="HTML5 Admin Template"/>
+    <meta name="description" content="Porto Admin - Responsive HTML5 Template">
+    <meta name="author" content="okler.net">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+
+    <!-- Vendor CSS -->
+    <import type="css" file="vendor/bootstrap/css/bootstrap"/>
+    <import type="css" file="vendor/font-awesome/css/font-awesome"/>
+    <import type="css" file="vendor/magnific-popup/magnific-popup"/>
+    <import type="css" file="vendor/bootstrap-datepicker/css/bootstrap-datepicker3"/>
+
+
+    <import type="css" file="vendor/pnotify/pnotify#custom"/>
+    <import type="css" file="vendor/jquery-datatables-bs3/assets/css/datatables"/>
+    <import type="css" file="vendor/bootstrap-fileupload/bootstrap-fileupload#min"/>
+    <!-- Specific Page Vendor CSS -->
+    <block name="cpc"></block>
+    <!-- Theme CSS -->
+    <import type="css" file="admin/css/theme"/>
+    <!-- Skin CSS -->
+    <import type="css" file="admin/css/skins/default"/>
+    <!-- Theme Custom CSS -->
+    <import type="css" file="admin/css/theme-custom"/>
+    <!-- Head Libs -->
+    <import file="vendor/modernizr/modernizr"/>
+    <import file="vendor/jquery/jquery"/>
+    <style>
+        .sidebar-left{
+            width: 228px;
+        }
+        @media only screen and (min-width: 768px){
+            html.fixed .page-header{
+                left: 228px;
+            }
+            html.fixed .content-body{
+                margin-left: 228px;
+                width: 80%;
+            }
+        }
+        #datatable{
+            width: 100%!important;
+        }
+        td{
+            text-overflow:ellipsis;
+            -moz-text-overflow:ellipsis;
+            overflow:hidden;
+            white-space: nowrap;
+        }
+        #datatable thead th:last-child{
+            width: 216px!important;
+        }
+
+    </style>
+</head>
+<body>
+<section class="body">
+
+    <!-- start: header -->
+    <include file="Public:header"/>
+    <!-- end: header -->
+
+    <div class="inner-wrapper">
+        <!-- start: sidebar -->
+        <include file="Public:sidebar-left"/>
+        <!-- end: sidebar -->
+
+        <section role="main" class="content-body">
+            <include file="Public:location"/>
+
+            <!-- start: page -->
+            <block name="main"></block>
+            <!-- end: page -->
+        </section>
+    </div>
+
+</section>
+
+<!-- Vendor -->
+<include file="Public:vendor"/>
+
+<!-- Specific Page Vendor -->
+<block name="cpvav"></block>
+
+<!-- Theme Base, Components and Settings -->
+<import file="admin/js/theme"/>
+
+<!-- Theme Custom -->
+<import file="admin/js/theme#custom"/>
+
+<!-- Theme Initialization Files -->
+<import file="admin/js/theme#init"/>
+
+<!-- DataTables -->
+<include file="Component:table"/>
+
+<!-- Form -->
+<include file="Component:form"/>
+
+<!-- Specific -->
+<block name="spec"></block>
+
+
+</body>
+</html>

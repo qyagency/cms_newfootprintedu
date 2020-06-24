@@ -1,0 +1,36 @@
+<extend name="Layout:index" />
+<block name="title">地区信息 - 编辑</block>
+<style type="text/css">
+
+
+
+
+</style>
+
+<block name="cpc">
+    <import type="css" file="vendor/bootstrap-multiselect/bootstrap-multiselect"/>
+    <import type="css" file="vendor.select2.css.select2"/>
+    <import type="css" file="vendor.select2-bootstrap-theme.select2-bootstrap"/>
+</block>
+<block name="main">
+    <form class="ajaxForm form-horizontal form-bordered" enctype="multipart/form-data" method="post" novalidate="novalidate">
+    <section class="panel">
+        <div class="panel-body">
+            <cps:oneInput label="地区:" target="area_name" required="1" />
+        </div>
+        <footer class="panel-footer">
+            <div class="row">
+                <div class="col-sm-9 col-lg-3">
+                    <button class="btn btn-primary">保存</button>
+                    <button class="btn btn-primary btn-back">取消</button>
+                </div>
+            </div>
+        </footer>
+    </section>
+</form>
+    <script>
+
+
+
+    </script>
+</block>

@@ -1,0 +1,98 @@
+<extend name="Layout:index" />
+<block name="title">权限管理 - 列表</block>
+<block name="main">
+    <style>
+        .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+border: 0px solid #ddd;
+}
+.table-bordered{
+    border: 0px solid #ddd;
+
+}
+th{
+    background-color: #f4f4f4;
+}
+    </style>
+    <section class="panel">
+        <in name="cRefresh" value="$Think.session.routes">
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <strong><i class="fa fa-warning"></i></strong> 新增控制器[Controller]或方法[Action]后,点击<a id="powerRefresh" class="ml-xs mr-xs btn-link">此处</a>刷新权限列表.
+        </div>
+        </in>
+        <div class="panel-body">
+            <table id="datatable" class="table table-bordered table-striped table-condensed mb-none">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>权限组名称</th>
+                    <th width="120">添加日期</th>
+                    <th width="120">更新日期</th>
+                    <th width="150">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <volist name="list" id="vo">
+                    <tr id="group_{$i}">
+                        <td>{$vo.id}</td>
+                        <td>{$vo.name}[{$vo.cnt}]</td>
+                        <td>{$vo.create_time|date="m/d H:i",###}</td>
+                        <td>{$vo.update_time|date="m/d H:i",###}</td>
+                        <td>
+                            <in name="cEdit" value="$Think.session.routes">
+                                <a href="{:U('/Group/edit/id/'.$vo['id'])}" class="btn btn-xs btn-primary ml-sm mr-sm"><i class="fa fa-pencil"></i> 编辑</a>
+                            </in>
+                            <in name="cDelete" value="$Think.session.routes">
+                                <a <eq name="vo.del_flg" value="-1">disabled</eq> data-target="group_{$i}" data-href="{:U('/Group/delete/id/'.$vo['id'])}" data-toggle="confirmation" class="btn btn-xs btn-primary"><i class="fa fa-trash-o"></i> 删除</a>
+                            </in>
+                        </td>
+                    </tr>
+                </volist>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</block>
+<block name="spec">
+    <script>
+        $(document).ready(function(){
+            'use strict';
+
+            var stack_bar_top = {"dir1": "down", "dir2": "right", "push": "top", "spacing1": 0, "spacing2": 0};
+
+            $('#powerRefresh').click(function(){
+                $.ajax({
+                    type: 'POST',
+                    url: '/Group/refresh',
+                    success : complete,
+                    dataType : 'json'
+                });
+            });
+            function complete(data) {
+                if (data.status == 1) {
+                    // success
+                    new PNotify({
+                        title: '操作成功',
+                        text: data.info,
+                        type: 'success',
+                        nonblock: {
+                            nonblock: true,
+                            nonblock_opacity: .2
+                        }
+                    });
+                } else {
+                    // error
+                    new PNotify({
+                        title: '操作失败',
+                        text: data.info,
+                        type: 'error',
+                        nonblock: {
+                            nonblock: true,
+                            nonblock_opacity: .2
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+</block>

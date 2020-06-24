@@ -1,0 +1,46 @@
+<extend name="Layout:index" />
+<block name="title">用户管理 - 列表</block>
+<block name="main">
+    <section class="panel">
+        <div class="panel-body media-gallery">
+            <div class="row mg-files pb-none">
+                <volist name="list" id="vo">
+                    <div class="col-md-4" id="user_{$i}">
+                        <div class="thumbnail">
+                            <div class="thumb-preview">
+                                <a class="thumb-image" href="assets/images/projects/project-1.jpg">
+                                    <img src="https://Curiookids.incker.com/Public/upload/qrcode/default.png" class="img-responsive">
+                                </a>
+                                <div class="mg-thumb-options">
+                                    <div class="mg-toolbar">
+                                        <div class="mg-group pull-left">
+                                            {$vo.last_login_time|date="m/d H:i",###}
+                                        </div>
+                                        <div class="mg-group pull-right">
+                                            <in name="cEdit" value="$Think.session.routes">
+                                                <a data-toggle="tooltip" data-original-title="编辑" href="{:U('/user/edit/id/'.$vo['id'])}"><i class="fa fa-pencil"></i></a>
+                                            </in>
+                                            <in name="cDelete" value="$Think.session.routes">
+                                                <eq name="vo.del_flg" value="-1">
+                                                    <a data-toggle="tooltip" data-original-title="锁定"><i class="fa fa-lock"></i></a>
+                                                    <else/>
+                                                    <a data-toggle="asyn" data-original-title="删除" data-target="user_{$i}" data-href="{:U('/user/delete/id/'.$vo['id'])}"><i class="fa fa-trash-o"></i></a>
+                                                </eq>
+                                            </in>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <h5 class="mg-title text-weight-semibold">{$vo.username}<small>（{$vo.nickname}）</small></h5>
+                            <div class="mg-description">
+                                <small class="pull-left text-muted">{$groupList[$vo['group_id']]}</small>
+                                <small class="pull-right text-muted">{$vo.status|translateSts}</small>
+                            </div>
+                        </div>
+                    </div>
+                </volist>
+            </div>
+        </div>
+    </section>
+</block>

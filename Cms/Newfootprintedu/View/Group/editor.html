@@ -1,0 +1,47 @@
+<extend name="Layout:index" />
+<block name="title">权限管理 - 编辑</block>
+<block name="main">
+    <form class="ajaxForm form-horizontal form-bordered" method="post" novalidate="novalidate">
+        <section class="panel">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="GroupName">权限组名称<span class="required">*</span></label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="GroupName" name="GroupName"
+                               value="{$vo.name}" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2 control-label">权限列表<span class="required">*</span></label>
+                    <div class="col-md-8">
+                        <foreach name="Think.config.POWER" item="power" key="K1">
+                            <div>
+                                <label class="control-label label label-primary label-sm text-weight-normal va-middle mr-sm pull-right">{$Think.config.CONTROLLER_NAME.$K1}</label>
+                                <div>
+                                    <foreach name="power" item="action" key="K2">
+                                        <div class="checkbox-inline checkbox-custom checkbox-default">
+                                            <input id="for-{$K1}-{$K2}" value="{$K1}.{$K2}"
+                                            <php>echo in_array($K1.'.'.$K2,$vo['setting'])?'checked':'';</php>
+                                            type="checkbox" name="for[]" required="" aria-required="true">
+                                            <label for="for-{$K1}-{$K2}">{$action}</label>
+                                        </div>
+                                    </foreach>
+                                </div>
+                            </div>
+                            <hr class="short"/>
+                        </foreach>
+                    </div>
+                </div>
+            </div>
+            <footer class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-9 col-lg-3">
+                        <button class="btn btn-primary">保存</button>
+                        <a class="btn btn-primary ml-lg">取消</a>
+                    </div>
+                </div>
+            </footer>
+        </section>
+
+    </form>
+</block>
