@@ -36,7 +36,6 @@ class MiniApiController extends Controller {
         }else{
             $keyUrl = $this->urlPrepare(C('JS_CODE_2_SESSION'), array('CODE' => $code));
             $keyRst = $this -> ReqGet($keyUrl);
-      //      dump($keyUrl);
             $keyRst = json_decode($keyRst);
             $openid = $keyRst->openid;
             $unionid = $keyRst->unionid;
@@ -57,36 +56,17 @@ class MiniApiController extends Controller {
                 M('user_session_key') ->where($map2)-> save($save);
             }
 
-            $map['del_flg'] = 0;
-            $map['user_mini_open_id'] = $openid;
-            $find = M('user_info')->where($map)->find();
-            if(!empty($find)){
-                $rst['code'] = 300;//原有用户
-                $rst['user_mini_open_id'] = $openid;
-                $rst['user_union_id'] = $unionid;
-                $this->ajaxReturn($rst);
-            }else{
-                $rst['code'] = 200;//新用户
-                $rst['user_mini_open_id'] = $openid;
-                $rst['user_union_id'] = $unionid;
-
-                //插入用户数据
-                $add['user_mini_open_id'] = $openid;
-                $add['user_union_id'] = $unionid;
-                $add['create_time'] = time();
-                $add['update_time'] = time();
-                $add['del_flg'] = 0;
-                M('user_info')->where($map)->add($add);
-
-                $this->ajaxReturn($rst);
-            }
+            $rst['code'] = 200;//获取成功
+            $rst['user_openid'] = $openid;
+            $rst['user_unionid'] = $unionid;
+            $this->ajaxReturn($rst);
 
         }
     }
 
     /*
-         * 获取用户手机的信息
-         * */
+     * 获取用户手机的信息
+     * */
     public function getMobileAction() {
 
         Vendor('OpenWx.wxBizDataCrypt');
@@ -104,125 +84,131 @@ class MiniApiController extends Controller {
         $sessionKey =$find['user_session_key'];
 
         $pc = new \WXBizDataCrypt(C('APP_ID'), $sessionKey);
-        //   $data ="";
         $errCode = $pc->decryptData($encryptedData, $iv, $data);
         if ($errCode == 0) {
             $userinfo = json_decode($data, true);
-       //     dump($userinfo);
-            $rst['user_mini_mobile'] = $userinfo['phoneNumber'];
-            $map['user_mini_open_id'] = $openid;
-            $map['del_flg'] = 0;
-            $db = M('user_info');
-
-            $find = $db->where($map)->find();
-            if(!empty($find)){
-                //插入用户数据
-                $map2['user_mini_open_id'] = $openid;
-                $save['user_mini_mobile'] = $userinfo['phoneNumber'];
-                $save['update_time'] = time();
-                $db->where($map2)->save($save);
-            }else{
-                //插入用户数据
-                $add['user_mini_open_id'] = $openid;
-                $add['user_mini_mobile'] = $userinfo['phoneNumber'];
-                $add['create_time'] = time();
-                $add['update_time'] = time();
-                $add['del_flg'] = 0;
-                $db->where($map)->add($add);
-            }
             $rst['code'] = 200;
+            $rst['user_mobile'] = $userinfo['user_mobile'];
         }
         $this->ajaxReturn($rst);
-
     }
 
-    /*
-         * 获取用户unionid的信息
-         * */
-    public function getUnionIdAction() {
-
-        Vendor('OpenWx.wxBizDataCrypt');
-        $openid = $this->params['user_open_id'];
-        if (empty($openid) || !$openid) {
-            die();
-        }
-
-        $rst['code'] = 300;
-        $encryptedData = $this->params['ed'];
-        $iv = $this->params['iv'];
-
-        $map['user_open_id'] = $openid;
-        $find = M('user_session_key') -> where($map) ->find();
-        $sessionKey =$find['user_session_key'];
-
-        $pc = new \WXBizDataCrypt(C('APP_ID'), $sessionKey);
-        //   $data ="";
-        $errCode = $pc->decryptData($encryptedData, $iv, $data);
-        if ($errCode == 0) {
-            $userinfo = json_decode($data, true);
-            //     dump($userinfo);
-            $rst['user_union_id'] = $userinfo['unionId'];
-            $map['user_mini_open_id'] = $openid;
-            $map['del_flg'] = 0;
-            $db = M('user_info');
-
-            $find = $db->where($map)->find();
-            if(!empty($find)){
-                //插入用户数据
-                $map2['user_mini_open_id'] = $openid;
-                $save['user_union_id'] = $userinfo['unionId'];
-                $save['update_time'] = time();
-                $db->where($map2)->save($save);
-            }else{
-                //插入用户数据
-                $add['user_mini_open_id'] = $openid;
-                $add['user_union_id'] = $userinfo['unionId'];
-                $add['create_time'] = time();
-                $add['update_time'] = time();
-                $add['del_flg'] = 0;
-                $db->where($map)->add($add);
-            }
-            $rst['code'] = 200;
-        }
-        $this->ajaxReturn($rst);
-
-    }
 
     /*
-     * 提交学员信息
+     * 注册成为正式用户
      * */
     public function submitUserInfoAction() {
 
-        $map2['user_mini_open_id'] = $this->params['user_open_id'];
-        $save['user_mobile'] =  $this->params['user_mobile'];
-        $save['form_id'] =  "MINI001";
-        $save['user_name'] =  $this->params['user_name'];
-        $save['user_relation'] =  $this->params['user_relation'];
-        $save['user_gender'] =  $this->params['user_gender'];
-        $save['user_grade'] =  $this->params['user_grade'];
-        $save['user_school'] =  $this->params['user_school'];
-        $save['is_submit'] = 1;
-        $save['submit_time'] = time();
-        $save['create_time'] = time();
-        $save['update_time'] = time();
-        $save['del_flg'] = 0;
-        M('user_info')->where($map2)->save($save);
-
-        if(!empty($this->params['booking_date'])){
-            $add['user_mini_open_id'] = $this->params['user_open_id'];
-            $add['booking_date'] = $this->params['booking_date'];
-            $add['booking_time'] = $this->params['booking_time'];
+        $map2['user_openid'] = $this->params['user_openid'];
+        $map2['del_flg'] = 0;
+        $find = M('fact_user_info')->where($map2)->find();
+        if(!empty($find)){
+            $rst['code'] = 201;//已经注册过
+            $this->ajaxReturn($rst);
+        }else{
+            $add['user_openid'] = $this->params['user_openid'];
+            $add['user_unionid'] = $this->params['user_unionid'];
+            $add['user_nickname'] = $this->params['user_nickname'];
+            $add['user_avatar'] = $this->params['user_avatar'];
+            $add['user_mobile'] = $this->params['user_mobile'];
+            $add['user_name'] = $this->params['user_name'];
+            $add['user_province'] = $this->params['user_province'];
+            $add['user_city'] = $this->params['user_city'];
+            $add['user_address'] = $this->params['user_address'];
+            $add['is_student'] = $this->params['is_student'];
+            $add['user_grade'] = $this->params['user_grade'];
+            $add['user_school'] = $this->params['user_school'];
+            $add['user_interest'] = $this->params['user_interest'];
             $add['create_time'] = time();
             $add['update_time'] = time();
             $add['del_flg'] = 0;
-            M('evaluation_booking')->add($add);
+            M('fact_user_info')->add($add);
+
+            $rst['code'] = 200;
+            $this->ajaxReturn($rst);
+        }
+    }
+
+    /*
+     * 提交教师认证信息
+     * */
+    public function submitTeacherInfoAction() {
+
+        $map2['teacher_openid'] = $this->params['user_openid'];
+        $map2['del_flg'] = 0;
+        $find = M('fact_teacher_info')->where($map2)->find();
+        if(!empty($find)){
+            $save['teacher_name'] = $this->params['teacher_name'];
+            $save['teacher_avatar'] = $this->params['teacher_avatar'];
+            $save['teacher_mobile'] = $this->params['teacher_mobile'];
+            $save['teacher_license'] = $this->params['teacher_license'];
+            $save['teacher_province'] = $this->params['teacher_province'];
+            $save['teacher_city'] = $this->params['teacher_city'];
+            $save['teacher_address'] = $this->params['teacher_address'];
+            $save['teacher_school'] = $this->params['teacher_school'];
+            $save['teacher_subject'] = $this->params['teacher_subject'];
+            $save['teacher_material'] = $this->params['teacher_material'];
+            $save['teacher_subject'] = $this->params['teacher_subject'];
+            $save['update_time'] = time();
+            M('fact_teacher_info')->where($map2)->save($save);
+        }else{
+            $add['teacher_openid'] = $this->params['user_openid'];
+            $add['teacher_name'] = $this->params['teacher_name'];
+            $add['teacher_avatar'] = $this->params['teacher_avatar'];
+            $add['teacher_mobile'] = $this->params['teacher_mobile'];
+            $add['teacher_license'] = $this->params['teacher_license'];
+            $add['teacher_province'] = $this->params['teacher_province'];
+            $add['teacher_city'] = $this->params['teacher_city'];
+            $add['teacher_address'] = $this->params['teacher_address'];
+            $add['teacher_school'] = $this->params['teacher_school'];
+            $add['teacher_subject'] = $this->params['teacher_subject'];
+            $add['teacher_material'] = $this->params['teacher_material'];
+            $add['teacher_subject'] = $this->params['teacher_subject'];
+            $add['create_time'] = time();
+            $add['update_time'] = time();
+            $add['del_flg'] = 0;
+            M('fact_teacher_info')->add($add);
         }
 
         $rst['code'] = 200;
         $this->ajaxReturn($rst);
     }
 
+    /*
+     * 提交视频信息
+     * */
+    public function submitVideoInfoAction() {
 
+        $map2['id'] = $this->params['video_id'];
+        $map2['del_flg'] = 0;
+        $find = M('fact_video_info')->where($map2)->find();
+        if(!empty($find)){
+            $save['video_title'] = $this->params['video_title'];
+            $save['video_describe'] = $this->params['video_describe'];
+            $save['video_label'] = $this->params['video_label'];
+            $save['video_url'] = $this->params['video_url'];
+            $save['upload_openid'] = $this->params['upload_openid'];
+            $save['video_grade_id'] = $this->params['video_grade_id'];
+            $save['video_subject_id'] = $this->params['video_subject_id'];
+            $save['update_time'] = time();
+            M('fact_teacher_info')->where($map2)->save($save);
+        }else{
+            $add['video_title'] = $this->params['video_title'];
+            $add['video_describe'] = $this->params['video_describe'];
+            $add['video_label'] = $this->params['video_label'];
+            $add['video_url'] = $this->params['video_url'];
+            $add['upload_openid'] = $this->params['upload_openid'];
+            $add['video_grade_id'] = $this->params['video_grade_id'];
+            $add['video_subject_id'] = $this->params['video_subject_id'];
+            $add['create_time'] = time();
+            $add['update_time'] = time();
+            $add['del_flg'] = 0;
+            M('fact_user_info')->add($add);
+        }
+
+        $rst['code'] = 200;
+        $this->ajaxReturn($rst);
+    }
 
     /**
      * 接受小程序post过来的数据
