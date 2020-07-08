@@ -47,8 +47,8 @@ return array(
     'JS_CODE_2_SESSION' => 'https://api.weixin.qq.com/sns/jscode2session?appid={{APP_ID}}&secret={{APP_SECRET}}&js_code={{CODE}}&grant_type=authorization_code',
 
     // 小程序 - ID
-    'APP_ID' => 'wx383f7822c4bc1067',
-    'APP_SECRET' => '82cf58097e34a9dcf79839b05fc2f7f9',
+    'APP_ID' => 'wx681c1cc7f5e257aa',
+    'APP_SECRET' => '5b60f46b3fdc62efb9a69ec2752b2e08',
 
     // 微信公众号 - ID
     'WX_APP_ID' => 'wxf8ebeb39ddc5fa92',

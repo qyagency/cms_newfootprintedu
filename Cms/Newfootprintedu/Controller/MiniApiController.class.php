@@ -187,6 +187,7 @@ class MiniApiController extends Controller {
             $save['video_describe'] = $this->params['video_describe'];
             $save['video_label'] = $this->params['video_label'];
             $save['video_url'] = $this->params['video_url'];
+            $save['video_head_img'] = $this->params['video_head_img'];
             $save['upload_openid'] = $this->params['upload_openid'];
             $save['video_grade_id'] = $this->params['video_grade_id'];
             $save['video_subject_id'] = $this->params['video_subject_id'];
@@ -197,6 +198,7 @@ class MiniApiController extends Controller {
             $add['video_describe'] = $this->params['video_describe'];
             $add['video_label'] = $this->params['video_label'];
             $add['video_url'] = $this->params['video_url'];
+            $add['video_head_img'] = $this->params['video_head_img'];
             $add['upload_openid'] = $this->params['upload_openid'];
             $add['video_grade_id'] = $this->params['video_grade_id'];
             $add['video_subject_id'] = $this->params['video_subject_id'];
@@ -209,6 +211,41 @@ class MiniApiController extends Controller {
         $rst['code'] = 200;
         $this->ajaxReturn($rst);
     }
+
+    /*
+     * 获取首页信息
+     * */
+    public function getHomeInfoAction() {
+
+        //首页视频信息
+        $map['is_top'] = 1;
+        $map['del_flg'] = 0;
+        $rst['video_info'] = M('fact_video_info')->where($map)->order('playing_count desc,favorite_count desc')->limit(10)->select();
+
+        //获取登录用户信息
+        $map2['user_openid'] = $this->params['user_openid'];
+        $map2['del_flg'] = 0;
+        $find = M('fact_user_info') ->where($map2)->find();
+        if(empty($find)){
+            $rst['user_info']['id'] = 0; //没有注册
+        }else{
+            $rst['user_info'] = $find;
+        }
+
+        //获取年级
+        $map3['del_flg'] = 0;
+        $rst['grade_info'] = M('dim_grade')->where($map3)->select();
+        //获取教材
+        $rst['material_info'] = M('dim_material')->where($map3)->select();
+        //获取学科
+        $rst['subject_info'] = M('dim_subject')->where($map3)->select();
+
+        $rst['code'] = 200;
+        $this->ajaxReturn($rst);
+    }
+
+
+
 
     /**
      * 接受小程序post过来的数据
